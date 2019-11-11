@@ -75,9 +75,9 @@ main(int  argc,				/* I - Number of command-line args */
   * Check arguments...
   */
 
-  if (argc != 2 && argc != 3)
+  if (argc < 2 || argc > 4)
   {
-    fputs("Usage: testmxml filename.xml [string-output.xml]\n", stderr);
+    fputs("Usage: testmxml filename.xml [string-output.xml] [out.xml]\n", stderr);
     return (1);
   }
 
@@ -580,8 +580,16 @@ main(int  argc,				/* I - Number of command-line args */
   * Print the XML tree...
   */
 
-  mxmlSaveFile(xml, stdout, whitespace_cb);
-
+  if(argc == 4)
+  {
+      fp = fopen(argv[3], "w");
+      mxmlSaveFile(xml, fp, whitespace_cb);
+      fclose(fp);
+  }
+  else
+  {
+      mxmlSaveFile(xml, stdout, whitespace_cb);
+  }
  /*
   * Save the XML tree to a string and print it...
   */
