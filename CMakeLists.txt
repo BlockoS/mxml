@@ -4,7 +4,13 @@ project(mxml
     VERSION 1.1.0
     LANGUAGES C)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 include(GNUInstallDirs)
+
+if(MSVC)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+endif(MSVC)
 
 find_package(Threads)
 
@@ -34,7 +40,7 @@ set(mxml_HDR
 add_library(mxml OBJECT ${mxml_SRC} ${mxml_HDR})
 set_property(TARGET mxml PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-add_library(mxml_shared SHARED $<TARGET_OBJECTS:mxml>)
+add_library(mxml_shared SHARED  ${mxml_SRC} ${mxml_HDR})
 set_target_properties(mxml_shared PROPERTIES OUTPUT_NAME mxml)
 set_target_properties(mxml_shared PROPERTIES
                       OUTPUT_NAME mxml
